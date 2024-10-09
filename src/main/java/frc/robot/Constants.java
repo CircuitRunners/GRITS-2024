@@ -198,6 +198,7 @@ public final class Constants{
     public static final double high = 0;
     public static final double mid = 0;
     public static final double low = 0;
-
+    public static final double kP = 0;
+    
   }
 }
