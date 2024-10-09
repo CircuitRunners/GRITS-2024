@@ -189,5 +189,14 @@ public final class Constants{
     public static final int operatorPort = 1;
   }
 
-
+  public static final class ElevatorConstants{
+    public static final int lMotor = 0;
+    public static final int rMotor = 0;
+    public static final double ks = 0;
+    public static final double kg = 0;
+    public static final double kv = 0;
+    public static final double high = 0;
+    public static final double mid = 0;
+    
+  }
 }
