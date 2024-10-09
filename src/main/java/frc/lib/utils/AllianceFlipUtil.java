@@ -45,7 +45,7 @@ public class AllianceFlipUtil {
     }
 
     public static Rotation2d apply(Rotation2d rotation){
-        if(shouldFlip){
+        if(shouldFlip()){
             return flip(rotation);
         } else {
             return rotation;
