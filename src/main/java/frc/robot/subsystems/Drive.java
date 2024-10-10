@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Volts;
 
+import java.lang.reflect.Field;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
@@ -33,8 +34,44 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.io.DriverControls;
 
 public class Drive extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public Drive() {}
+  public static double limit = 1;
+  private Swerve swerve;
+  private FieldUtil fieldUtil = FieldUtil.getField();
+  private boolean sysIdTranslator = true;
+  private final SysIdSwerveTranslation translation = new SysIdSwerveTranslation();
+  private final SysIdRoutine sysIdTranslation = new SysIdRoutine(
+    new SysIdRoutine.Config(
+      null, 
+      Volts.of(7),
+      null,
+      null),  
+    new SysIdRoutine.Mechanism(
+      (volts) -> swerve.setControl(translation.withVolts(volts)),
+      null,
+      this)
+    );
+  private final SysIdSwerveRotation rotation = new SysIdSwerveRotation();
+  private final SysIdRoutine sysIdRotation = new SysIdRoutine(
+    new SysIdRoutine.Config(
+      null,
+      Volts.of(7),
+      null,
+      null),
+    new SysIdRoutine.Mechanism(
+      (volts) -> swerve.setControl(rotation.withVolts(volts)),
+      null,
+      this));
+
+  private SlewRateLimiter forwardLimiter, strafeLimiter;
+  /** Creates a new Drive */
+  public Drive(Swerve swerve) {
+    SignalLogger.setPath("logs/sysid/drive");
+    this.swerve = swerve;
+
+    forwardLimiter = new SlewRateLimiter(5, -10, 0);
+    strafeLimiter = new SlewRateLimiter(5, -10, 0);
+    swerve.setPigeonOffset();
+  }
 
   /**
    * Example command factory method.
@@ -68,5 +105,6 @@ public class Drive extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    Pose2d targetPose = PathPlannerUtil.getCurrent
   }
 }
