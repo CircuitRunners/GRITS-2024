@@ -82,6 +82,9 @@ public class Drive extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
     Pose2d targetPose = PathPlannerUtil.getCurrentTargetPose();
+    fieldUtil.setSwerveRobotPose(swerve.getPose2d(),swerve.getModuleStates(), SwerveConstants.modulePositions);
+    fieldUtil.setObjectGlobalPose("Target Pose", targetPose);
+    swerve.updateSimState(0.02, 12);
   }
 
   
