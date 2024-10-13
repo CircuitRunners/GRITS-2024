@@ -23,9 +23,25 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Drive;
-//import frc.robot.subsystems.Intake;
-//import frc.robot.subsystems.Shooter;
+
 
 public class PathPlannerUtil {
-    
+    private static final DoubleArraySubscriber kTargetPoseSub = NetworkTableInstance.getDefault()
+        .getDoubleArrayTopic("/Pathplanner/targetPose")
+        .subscribe(new double[] {0,0,0});
+
+    public static void configure(Drive drive, Shooter shooter){
+        HolonomicPathFollowerConfig config = new HolonomicPathFollowerConfig(
+            SwerveConstants.translationalPID, 
+            SwerveConstants.rotationalPID, 
+            TunerConstants.kSpeedAt12VoltsMps, 
+            SwerveConstants.driveBaseRadiusMeter, 
+            new ReplanningConfig(true, true)
+        );
+        
+        AutoBuilder.configureHolonomic(
+            drive::getPose();
+        );
+
+    }
 }
