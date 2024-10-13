@@ -92,7 +92,7 @@ public final class Constants{
     public static final double angleKF = 0;
 
     /**Angle Motor SYSID values */
-    public static final double angelKS = TunerConstants.steerGains.kS;
+    public static final double angleKS = TunerConstants.steerGains.kS;
     public static final double angleKV = TunerConstants.steerGains.kV;
     public static final double angleKG = TunerConstants.steerGains.kG;
     public static final double angleKA = TunerConstants.steerGains.kA;
@@ -101,7 +101,7 @@ public final class Constants{
     public static final double driveKP = TunerConstants.driveGains.kS;
     public static final double driveKI = TunerConstants.driveGains.kI;
     public static final double driveKD = TunerConstants.driveGains.kD;
-    public static final double angleKF = 0;
+    public static final double driveKF = 0;
 
     /** Drive Motor Characterization Values
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE*/
@@ -182,6 +182,7 @@ public final class Constants{
     }
   
     public static final PathConstraints pathConstraints = new PathConstraints(maxVelocityMPS, maxModuleAccelerationMPSSq, maxAngularVelocityRPS, maxAngularAccelerationRPSSq);
+    protected static double angleKS;
   }
 
   public static final class DriverConstants{
