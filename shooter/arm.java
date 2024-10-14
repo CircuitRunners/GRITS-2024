@@ -18,6 +18,34 @@ import frc.robot.Constants.ArmConstants;
 public class arm extends SubsystemBase
 {
     // Karti's methods
+    /**
+     * Creates a new Arm instance.
+     * This constructor initializes the TalonFX motor controller and sets it to factory default.
+     * It also sets the neutral mode of the motor to Brake, meaning the motor will stop when no power is applied.
+     */
+    public class arm 
+    {
+        private final TalonFX arm;
+      /** Creates a new Arm. */
+
+        public void Arm() 
+        {
+            arm = new TalonFX(ArmConstants.armLeaderId);
+            arm.configFactoryDefault(); // Call the method to reset configurations to default
+            arm.setNeutralMode(NeutralModeValue.Brake); // Set the neutral mode to Brake
+        }
+        
+        /**
+         * Resets the arm encoder to zero.
+         * This method is used to reset the encoder position of the arm motor to 0.
+         * It is helpful when recalibrating the arm's starting position.
+         */
+        public void resetArmEncoder()
+         {
+            armLeader.setSelectedSensorPosition(0); // Reset the encoder position to 0
+        }
+        
+    }
 
     // Goodnews's methods
     /**
