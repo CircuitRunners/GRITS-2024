@@ -33,6 +33,7 @@ import edu.wpi.first.units.Measure;
 import frc.lib.swerve.SwerveModuleConstants;
 import frc.lib.swerve.COTSFalconSwerveConstants;
 import frc.lib.utils.AllianceFlipUtil;
+import frc.robot.generated.TunerConstants;
 
 public final class Constants{
   public static final class SwerveConstants{
@@ -64,7 +65,7 @@ public final class Constants{
 
     /**Motor Inverts*/
     public static final boolean angleMotorInvert = chosenModule.angleMotorInvert;
-    public static final boolean driveMotorInvert - chosenModule.driveMotorInvert;
+    public static final boolean driveMotorInvert = chosenModule.driveMotorInvert;
 
     /** Angle encoder invert */
     public static final boolean canCoderInvert = chosenModule.canCoderInvert;
@@ -165,7 +166,7 @@ public final class Constants{
       public static final int canCoderID = 2;
 
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackLeftEncoderOffset);
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID,angleOffset);
       public static final Translation2d position = new Translation2d(driveBaseRadiusMeter/-2.0, wheelBase/2.0);//Back left -x,+y
     }
   
@@ -177,12 +178,11 @@ public final class Constants{
       public static final int canCoderID = 3;
 
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackRightEncoderOffset);
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       public static final Translation2d position = new Translation2d(-driveBaseRadiusMeter/2.0,-wheelBase/2.0);// -x,-y
     }
   
     public static final PathConstraints pathConstraints = new PathConstraints(maxVelocityMPS, maxModuleAccelerationMPSSq, maxAngularVelocityRPS, maxAngularAccelerationRPSSq);
-    protected static double angleKS;
   }
 
   public static final class DriverConstants{
