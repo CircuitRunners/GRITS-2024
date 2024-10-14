@@ -137,11 +137,11 @@ public class Drive extends SubsystemBase {
     return Commands.runOnce(this::decreaseLimit);
   }
 
-  public Command driveFieldCentriCommand(Supplier<ChassisSpeeds> chassisSpeeds){
+  public Command driveFieldCentricCommand(Supplier<ChassisSpeeds> chassisSpeeds){
     return run(() -> driveFieldCentric(chassisSpeeds.get()));
   }
 
-  public Command driveRobotCentriCommand(Supplier<ChassisSpeeds> chassisSpeeds){
+  public Command driveRobotCentricCommand(Supplier<ChassisSpeeds> chassisSpeeds){
     return run(() -> driveRobotCentric(chassisSpeeds.get()));
   }
 
