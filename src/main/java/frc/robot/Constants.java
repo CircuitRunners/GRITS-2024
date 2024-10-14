@@ -269,7 +269,7 @@ public final class Constants{
     private static final Measure<Distance> kBotZ = Inches.of(78.324);
     // private static final Translation3d kBotRight = new Translation3d(
     // kBotX, Inches.of(238.815), kBotZ);
-    public static final Translation3d kBotLeft = new Translation3d(kBotX, Inches.of(197.765), kBotZ)
+    public static final Translation3d kBotLeft = new Translation3d(kBotX, Inches.of(197.765), kBotZ);
     public static final Translation3d kBlueCenterOpening = kBotLeft.interpolate(kTopRight, 0.5);
     public static final Pose3d kBlueCenterOpeningPose3d = new Pose3d(kBlueCenterOpening, new Rotation3d());
     public static final Translation3d kRedCenterOpening = AllianceFlipUtil.flip(kBlueCenterOpening);
