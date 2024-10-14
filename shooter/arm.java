@@ -11,16 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 
-
+/**
+ * The ArmSubsystem class controls the arm mechanism of the robot.
+ * It provides methods to move, stop, and control the arm's position.
+ */
 public class arm extends SubsystemBase
 {
-    
-
-    //Make java doc comments above the methods entailing what they do
-
     // Karti's methods
-
-    //Tarun's methods
 
     // Goodnews's methods
     /**
@@ -53,9 +50,10 @@ public class arm extends SubsystemBase
      * @param rate the speed at which to rotate the arm
      * @return a command that rotates the arm at the given rate when executed
      */
-
     public CommandBase rotateArmCommand (double rate)
     {
         return this.runOnce(() -> rotateArm(rate));
     }
+
+    //Tarun's methods
 }
