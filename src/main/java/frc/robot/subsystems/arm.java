@@ -16,14 +16,14 @@ import frc.robot.Constants.ArmConstants;
  * The ArmSubsystem class controls the arm mechanism of the robot.
  * It provides methods to move, stop, and control the arm's position.
  */
-public class arm extends SubsystemBase
+public class Arm extends SubsystemBase
 {
 
     /**
      * Creates a new Arm instance.
      * It also sets the neutral mode of the motor to Brake, meaning the motor will stop when no power is applied.
      */
-    public class arm 
+    public class Arm 
     {
         private final TalonFX arm;
       /** Creates a new Arm. */
