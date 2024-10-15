@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Volts;
 
-import java.lang.reflect.Field;
+
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.SignalLogger;
