@@ -84,4 +84,23 @@ public class arm extends SubsystemBase
     }
 
     //Tarun's methods
+
+    /**
+     * Calls .set method for object arm
+     * Sets first param as the control mode percent output and the second as 0
+     * Access specifier is public
+    */
+    public void stopArm() 
+    {
+        arm.set(ControlMode.PercentOutput,0)
+    }
+
+    /**
+     * Calls .putNumber for variable SmartDashboard
+     * Sets first param to be clawEncoderPos and the second as the arm variable calling .getSelectedSensorPositon
+     */
+    public void periodic() 
+    {
+        SmartDashboard.putNumber(clawEncoderPos, arm.getSelectedSensorPositon)
+    }
 }
