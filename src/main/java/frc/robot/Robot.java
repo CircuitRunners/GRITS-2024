@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
   public void testExit() {}
 
   private void configureAutos(){
-    PathPlannerUtil.configure(drive,shooter);
+    //PathPlannerUtil.configure(drive,shooter);
     autoChooser.addOption("Do Nothing", () -> Commands.print("Doing Nothing"));
     autoChooser.setDefaultOption("Nick's Taxi Service", () ->   (drive.driveRobotCentricCommand(() -> new ChassisSpeeds(0.5, 0, 0)).withTimeout(4)));
     //autoChooser.addOption("Shoot + Nick's Taxi Service", () ->   shooter.shootCommand().andThen(drive.driveRobotCentricCommand(() -> new ChassisSpeeds(1.2, 0, 0)).withTimeout(2.5)));
