@@ -23,7 +23,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.io.DriverControls;
 import frc.robot.io.OperatorControls;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Shooter;
+//import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,7 +33,7 @@ import frc.robot.subsystems.Shooter;
  */
 public class Robot extends TimedRobot {
   private Drive drive;
-  private Shooter shooter;
+  //private Shooter shooter;
   private DriverControls driverControls;
   private OperatorControls operatorControls;
   private Command m_autonomousCommand;
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    shooter.arm.resetTargetAngleToEncoderAngle();
+    //shooter.arm.resetTargetAngleToEncoderAngle();
   }
 
   @Override
@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = autoChooser.getSelected().get();
-    shooter.arm.resetTargetAngleToEncoderAngle();
+    //shooter.arm.resetTargetAngleToEncoderAngle();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    shooter.arm.resetTargetAngleToEncoderAngle();
+    //shooter.arm.resetTargetAngleToEncoderAngle();
   }
 
   /** This function is called periodically during operator control. */
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
     PathPlannerUtil.configure(drive,shooter);
     autoChooser.addOption("Do Nothing", () -> Commands.print("Doing Nothing"));
     autoChooser.setDefaultOption("Nick's Taxi Service", () ->   (drive.driveRobotCentricCommand(() -> new ChassisSpeeds(0.5, 0, 0)).withTimeout(4)));
-    autoChooser.addOption("Shoot + Nick's Taxi Service", () ->   shooter.shootCommand().andThen(drive.driveRobotCentricCommand(() -> new ChassisSpeeds(1.2, 0, 0)).withTimeout(2.5)));
+    //autoChooser.addOption("Shoot + Nick's Taxi Service", () ->   shooter.shootCommand().andThen(drive.driveRobotCentricCommand(() -> new ChassisSpeeds(1.2, 0, 0)).withTimeout(2.5)));
     PathPlannerUtil.getAutos().forEach(path -> {
       autoChooser.addOption(path, () -> PathPlannerUtil.getAutoCommand(path));
     });
@@ -150,16 +150,16 @@ public class Robot extends TimedRobot {
 
   private void configureBindings(){
     operatorControls = new OperatorControls(0);
-    operatorControls.start().onTrue(Commands.runOnce(() -> shooter.arm.resetTargetAngleToEncoderAngle()));
-    operatorControls.setArmShootPos().onTrue(shooter.arm.setArmShootPosition());
-    operatorControls.setArmIntakePos().onTrue(shooter.arm.setArmIntakePosition());
-    operatorControls.x().onTrue(shooter.arm.setArmAmpPosition());
-    shooter.arm.runManual(operatorControls.armManual());
-    operatorControls.runFlyWheelOut().whileTrue(shooter.flywheel.setShootSpeedCommand()).onFalse(shooter.flywheel.stopFlywheelCommand());
-    operatorControls.autoIntakeFromSource().whileTrue(shooter.rollers.autoIntake()).onFalse(shooter.rollers.runRollersOutCommandSlow().withTimeout(0.2).finallyDo(() -> shooter.rollers.stopRollers()));
-    operatorControls.runRollersOut().whileTrue(shooter.rollers.runRollersOutCommand()).onFalse(shooter.rollers.stopRollersCommand());
-    operatorControls.shoot().onTrue(shooter.shootCommand());
-    operatorControls.rightTrigger().onTrue(shooter.shootCommand());
+    //operatorControls.start().onTrue(Commands.runOnce(() -> shooter.arm.resetTargetAngleToEncoderAngle()));
+    //operatorControls.setArmShootPos().onTrue(shooter.arm.setArmShootPosition());
+    //operatorControls.setArmIntakePos().onTrue(shooter.arm.setArmIntakePosition());
+    //operatorControls.x().onTrue(shooter.arm.setArmAmpPosition());
+    //shooter.arm.runManual(operatorControls.armManual());
+    //operatorControls.runFlyWheelOut().whileTrue(shooter.flywheel.setShootSpeedCommand()).onFalse(shooter.flywheel.stopFlywheelCommand());
+    //operatorControls.autoIntakeFromSource().whileTrue(shooter.rollers.autoIntake()).onFalse(shooter.rollers.runRollersOutCommandSlow().withTimeout(0.2).finallyDo(() -> shooter.rollers.stopRollers()));
+    //operatorControls.runRollersOut().whileTrue(shooter.rollers.runRollersOutCommand()).onFalse(shooter.rollers.stopRollersCommand());
+    //operatorControls.shoot().onTrue(shooter.shootCommand());
+    //operatorControls.rightTrigger().onTrue(shooter.shootCommand());
   }
 
   /** This function is called once when the robot is first started up. */
@@ -174,7 +174,8 @@ public class Robot extends TimedRobot {
     drive = new Drive(TunerConstants.DriveTrain);
     // elevator = new Elevator();
     // intake = new Intake();
-    shooter = new Shooter();
+    //shooter = new Shooter();
   }
 
 }
+
