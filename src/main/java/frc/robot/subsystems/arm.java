@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -17,10 +18,9 @@ import frc.robot.Constants.ArmConstants;
  */
 public class arm extends SubsystemBase
 {
-    // Karti's methods
+
     /**
      * Creates a new Arm instance.
-     * This constructor initializes the TalonFX motor controller and sets it to factory default.
      * It also sets the neutral mode of the motor to Brake, meaning the motor will stop when no power is applied.
      */
     public class arm 
@@ -37,7 +37,6 @@ public class arm extends SubsystemBase
         
         /**
          * Resets the arm encoder to zero.
-         * This method is used to reset the encoder position of the arm motor to 0.
          * It is helpful when recalibrating the arm's starting position.
          */
         public void resetArmEncoder()
@@ -47,23 +46,19 @@ public class arm extends SubsystemBase
         
     }
 
-    // Goodnews's methods
     /**
      * Creates a command that stops arm motor
      * Sets motor output to 0, stopping the arm
      * 
      * @return a command that stops the arm when executed
      */
-    public CommandBase stopArmCommand ()
+    public CommandBase stopArmCommand()
     {
         return new InstantCommand(() -> arm.set(ControlMode.PercentOutput, 0));
     }
 
     /**
      * Rotates the arm at a certain rate
-     * Rate is between -1.0(full speed reverse) and 1.0 (full speed forward)
-     * scaled by rotation modifier
-     * 
      * @param rate the speed at which to rotate the arm
      */
     public void rotateArm(double rate)
@@ -99,9 +94,8 @@ public class arm extends SubsystemBase
     /**
      * Periodically updates the SmartDashboard with the current arm encoder position.
      * This method calls SmartDashboard.putNumber() to display the arm's current encoder position.
-     * The first parameter is the label/key "clawEncoderPos" and the second parameter is the 
-     * encoder position retrieved from the arm motor using getSelectedSensorPosition().
      */
+    @Override
     public void periodic() 
     {
         SmartDashboard.putNumber("clawEncoderPos", arm.getSelectedSensorPosition());
