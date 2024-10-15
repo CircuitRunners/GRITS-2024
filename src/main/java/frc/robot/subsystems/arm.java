@@ -1,16 +1,13 @@
 package frc.robot.subsystems;
-package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonSRX;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ControlModeValue;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ShooterConstants.ArmConstants;
 
 /**
  * The ArmSubsystem class controls the arm mechanism of the robot.
@@ -18,33 +15,13 @@ import frc.robot.Constants.ArmConstants;
  */
 public class Arm extends SubsystemBase
 {
-
-    /**
-     * Creates a new Arm instance.
-     * It also sets the neutral mode of the motor to Brake, meaning the motor will stop when no power is applied.
-     */
-    public class Arm 
-    {
         private final TalonFX arm;
-      /** Creates a new Arm. */
-
-        public void Arm() 
+        
+        public Arm ()
         {
-            arm = new TalonFX(ArmConstants.armLeaderId);
-            arm.configFactoryDefault(); // Call the method to reset configurations to default
-            arm.setNeutralMode(NeutralModeValue.Brake); // Set the neutral mode to Brake
+            arm = new TalonFX(0);
         }
-        
-        /**
-         * Resets the arm encoder to zero.
-         * It is helpful when recalibrating the arm's starting position.
-         */
-        public void resetArmEncoder()
-         {
-            armLeader.setSelectedSensorPosition(0); // Reset the encoder position to 0
-        }
-        
-    }
+    
 
     /**
      * Creates a command that stops arm motor
@@ -52,9 +29,9 @@ public class Arm extends SubsystemBase
      * 
      * @return a command that stops the arm when executed
      */
-    public CommandBase stopArmCommand()
+    public Command stopArmCommand()
     {
-        return new InstantCommand(() -> arm.set(ControlMode.PercentOutput, 0));
+        return new InstantCommand(() -> stopArm());
     }
 
     /**
@@ -63,8 +40,7 @@ public class Arm extends SubsystemBase
      */
     public void rotateArm(double rate)
     {
-        targetSpeed = rate;
-        arm.set(ControlMode.PercentOutput, (ArmConstants.rotationModifer * rate));
+        arm.set(rate);
     }
 
     /**
@@ -73,7 +49,7 @@ public class Arm extends SubsystemBase
      * @param rate the speed at which to rotate the arm
      * @return a command that rotates the arm at the given rate when executed
      */
-    public CommandBase rotateArmCommand (double rate)
+    public Command rotateArmCommand (double rate)
     {
         return this.runOnce(() -> rotateArm(rate));
     }
@@ -88,16 +64,15 @@ public class Arm extends SubsystemBase
      */
     public void stopArm() 
     {
-        arm.set(ControlMode.PercentOutput, 0);
+        arm.set(0);
     }
 
     /**
      * Periodically updates the SmartDashboard with the current arm encoder position.
-     * This method calls SmartDashboard.putNumber() to display the arm's current encoder position.
      */
     @Override
     public void periodic() 
     {
-        SmartDashboard.putNumber("clawEncoderPos", arm.getSelectedSensorPosition());
+        SmartDashboard.putNumber("clawEncoderPos", arm.getPosition().getValueAsDouble());
     }
 }
