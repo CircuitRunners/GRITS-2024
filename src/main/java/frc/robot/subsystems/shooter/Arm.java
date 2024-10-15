@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ControlModeValue;
