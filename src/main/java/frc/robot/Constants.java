@@ -33,6 +33,7 @@ import edu.wpi.first.units.Measure;
 import frc.lib.swerve.SwerveModuleConstants;
 import frc.lib.swerve.COTSFalconSwerveConstants;
 import frc.lib.utils.AllianceFlipUtil;
+import frc.robot.generated.TunerConstants;
 
 public final class Constants{
   public static final class SwerveConstants{
@@ -64,7 +65,7 @@ public final class Constants{
 
     /**Motor Inverts*/
     public static final boolean angleMotorInvert = chosenModule.angleMotorInvert;
-    public static final boolean driveMotorInvert - chosenModule.driveMotorInvert;
+    public static final boolean driveMotorInvert = chosenModule.driveMotorInvert;
 
     /** Angle encoder invert */
     public static final boolean canCoderInvert = chosenModule.canCoderInvert;
@@ -92,7 +93,7 @@ public final class Constants{
     public static final double angleKF = 0;
 
     /**Angle Motor SYSID values */
-    public static final double angelKS = TunerConstants.steerGains.kS;
+    public static final double angleKS = TunerConstants.steerGains.kS;
     public static final double angleKV = TunerConstants.steerGains.kV;
     public static final double angleKG = TunerConstants.steerGains.kG;
     public static final double angleKA = TunerConstants.steerGains.kA;
@@ -101,7 +102,7 @@ public final class Constants{
     public static final double driveKP = TunerConstants.driveGains.kS;
     public static final double driveKI = TunerConstants.driveGains.kI;
     public static final double driveKD = TunerConstants.driveGains.kD;
-    public static final double angleKF = 0;
+    public static final double driveKF = 0;
 
     /** Drive Motor Characterization Values
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE*/
@@ -165,7 +166,7 @@ public final class Constants{
       public static final int canCoderID = 2;
 
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackLeftEncoderOffset);
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID,angleOffset);
       public static final Translation2d position = new Translation2d(driveBaseRadiusMeter/-2.0, wheelBase/2.0);//Back left -x,+y
     }
   
@@ -177,7 +178,7 @@ public final class Constants{
       public static final int canCoderID = 3;
 
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackRightEncoderOffset);
-      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID);
+      public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       public static final Translation2d position = new Translation2d(-driveBaseRadiusMeter/2.0,-wheelBase/2.0);// -x,-y
     }
   
@@ -268,7 +269,7 @@ public final class Constants{
     private static final Measure<Distance> kBotZ = Inches.of(78.324);
     // private static final Translation3d kBotRight = new Translation3d(
     // kBotX, Inches.of(238.815), kBotZ);
-    public static final Translation3d kBotLeft = new Translation3d(kBotX, Inches.of(197.765), kBotZ)
+    public static final Translation3d kBotLeft = new Translation3d(kBotX, Inches.of(197.765), kBotZ);
     public static final Translation3d kBlueCenterOpening = kBotLeft.interpolate(kTopRight, 0.5);
     public static final Pose3d kBlueCenterOpeningPose3d = new Pose3d(kBlueCenterOpening, new Rotation3d());
     public static final Translation3d kRedCenterOpening = AllianceFlipUtil.flip(kBlueCenterOpening);

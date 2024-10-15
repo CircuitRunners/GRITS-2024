@@ -7,6 +7,23 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.lib.swerve.SwerveConfig;
+import frc.lib.utils.PathPlannerUtil;
+import frc.robot.Constants.DriverConstants;
+import frc.robot.commands.AimAtSpeaker;
+import frc.robot.generated.TunerConstants;
+import frc.robot.io.DriverControls;
+import frc.robot.io.OperatorControls;
+import frc.robot.subsystems.Drive;
+//import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,9 +32,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private Drive drive;
+  //private Shooter shooter;
+  private DriverControls driverControls;
+  private OperatorControls operatorControls;
   private Command m_autonomousCommand;
+  private final SendableChooser<Supplier<Command>> autoChooser = new SendableChooser<>(); 
 
-  private RobotContainer m_robotContainer;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -27,7 +49,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    configureSubsystems();
+
   }
 
   /**
@@ -46,17 +69,29 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  public void driverStationConnected(){
+    configureAutos();
+    configureBindings();
+  }
+
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    //shooter.arm.resetTargetAngleToEncoderAngle();
+  }
 
   @Override
   public void disabledPeriodic() {}
 
+  @Override
+  public void disabledExit() {}
+
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = autoChooser.getSelected().get();
+    //shooter.arm.resetTargetAngleToEncoderAngle();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -77,11 +112,17 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    //shooter.arm.resetTargetAngleToEncoderAngle();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {}
+
+  @Override
+  public void teleopExit() {}
+
+
 
   @Override
   public void testInit() {
@@ -93,6 +134,34 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 
+  @Override
+  public void testExit() {}
+
+  private void configureAutos(){
+    //PathPlannerUtil.configure(drive,shooter);
+    autoChooser.addOption("Do Nothing", () -> Commands.print("Doing Nothing"));
+    autoChooser.setDefaultOption("Nick's Taxi Service", () ->   (drive.driveRobotCentricCommand(() -> new ChassisSpeeds(0.5, 0, 0)).withTimeout(4)));
+    //autoChooser.addOption("Shoot + Nick's Taxi Service", () ->   shooter.shootCommand().andThen(drive.driveRobotCentricCommand(() -> new ChassisSpeeds(1.2, 0, 0)).withTimeout(2.5)));
+    PathPlannerUtil.getAutos().forEach(path -> {
+      autoChooser.addOption(path, () -> PathPlannerUtil.getAutoCommand(path));
+    });
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+  }
+
+  private void configureBindings(){
+    operatorControls = new OperatorControls(0);
+    //operatorControls.start().onTrue(Commands.runOnce(() -> shooter.arm.resetTargetAngleToEncoderAngle()));
+    //operatorControls.setArmShootPos().onTrue(shooter.arm.setArmShootPosition());
+    //operatorControls.setArmIntakePos().onTrue(shooter.arm.setArmIntakePosition());
+    //operatorControls.x().onTrue(shooter.arm.setArmAmpPosition());
+    //shooter.arm.runManual(operatorControls.armManual());
+    //operatorControls.runFlyWheelOut().whileTrue(shooter.flywheel.setShootSpeedCommand()).onFalse(shooter.flywheel.stopFlywheelCommand());
+    //operatorControls.autoIntakeFromSource().whileTrue(shooter.rollers.autoIntake()).onFalse(shooter.rollers.runRollersOutCommandSlow().withTimeout(0.2).finallyDo(() -> shooter.rollers.stopRollers()));
+    //operatorControls.runRollersOut().whileTrue(shooter.rollers.runRollersOutCommand()).onFalse(shooter.rollers.stopRollersCommand());
+    //operatorControls.shoot().onTrue(shooter.shootCommand());
+    //operatorControls.rightTrigger().onTrue(shooter.shootCommand());
+  }
+
   /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {}
@@ -100,4 +169,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  private void configureSubsystems() {
+    drive = new Drive(TunerConstants.DriveTrain);
+    // elevator = new Elevator();
+    // intake = new Intake();
+    //shooter = new Shooter();
+  }
+
 }
+
