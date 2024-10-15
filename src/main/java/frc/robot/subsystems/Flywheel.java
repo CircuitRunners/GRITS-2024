@@ -15,8 +15,8 @@ import frc.lib.utils.TunableNumber;
 import frc.robot.Constants.ShooterConstants.FlywheelConstants;
 
 public class Flywheel extends SubsystemBase {
-  private CANSparkMax flywheelRightLeader = new CANSparkMax(FlywheelConstants.shooterLeftId, MotorType.kBrushless);
-  private CANSparkMax flywheelLeftFollower = new CANSparkMax(FlywheelConstants.shooterRightId, MotorType.kBrushless);
+  private CANSparkMax flywheelRightLeader = new CANSparkMax(1, MotorType.kBrushless);
+  private CANSparkMax flywheelLeftFollower = new CANSparkMax(2, MotorType.kBrushless);
   private final RelativeEncoder flywheelLeftEncoder;
   private BangBangController flywheelController = new BangBangController();
   private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(FlywheelConstants.kS, FlywheelConstants.kV, FlywheelConstants.kA);
