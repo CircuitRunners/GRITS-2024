@@ -86,21 +86,24 @@ public class arm extends SubsystemBase
     //Tarun's methods
 
     /**
-     * Calls .set method for object arm
-     * Sets first param as the control mode percent output and the second as 0
-     * Access specifier is public
-    */
+     * Stops the arm motor by setting its output to zero.
+     * This method calls the .set() method on the arm motor controller
+     * and sets the control mode to PercentOutput with 0 as the output,
+     * effectively stopping the motor from moving.
+     */
     public void stopArm() 
     {
-        arm.set(ControlMode.PercentOutput,0)
+        arm.set(ControlMode.PercentOutput, 0);
     }
 
     /**
-     * Calls .putNumber for variable SmartDashboard
-     * Sets first param to be clawEncoderPos and the second as the arm variable calling .getSelectedSensorPositon
+     * Periodically updates the SmartDashboard with the current arm encoder position.
+     * This method calls SmartDashboard.putNumber() to display the arm's current encoder position.
+     * The first parameter is the label/key "clawEncoderPos" and the second parameter is the 
+     * encoder position retrieved from the arm motor using getSelectedSensorPosition().
      */
     public void periodic() 
     {
-        SmartDashboard.putNumber(clawEncoderPos, arm.getSelectedSensorPositon)
+        SmartDashboard.putNumber("clawEncoderPos", arm.getSelectedSensorPosition());
     }
 }
