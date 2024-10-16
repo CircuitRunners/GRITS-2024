@@ -6,6 +6,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -96,4 +98,34 @@ public class Arm extends SubsystemBase
     public Rotation2d getArmRotation(){
         return Rotation2d.fromRadians(throughBore.getAbsolutePosition() * 2 * Math.PI).minus(Rotation2d.fromDegrees(350));
     }
+
+
+    public void resetTargetAngleToEncoderAngle() {
+        setTargetAngle(getArmRotation());
+    }
+
+    public double getRawEncoderValue(){
+        return throughBore.getAbsolutePosition();
+    }
+
+    public void armVoltage(Measure<Voltage> voltageMeasure){
+        arm.setVoltage(voltageMeasure.magnitude());
+    }
+
+    public Command setArmAmpPosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.ampRotation));
+      }
+    
+    public Command setArmShootPosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.shootRotation));
+    }
+
+    public Command setArmIntakePosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.intakeRotation));
+    }
+
+    public void runManual(double value){
+        setTargetAngle(targetAngle.plus(Rotation2d.fromDegrees(value * ArmConstants.armSpeed)));
+    }
+    
 }
