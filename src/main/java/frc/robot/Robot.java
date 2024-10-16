@@ -23,7 +23,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.io.DriverControls;
 import frc.robot.io.OperatorControls;
 import frc.robot.subsystems.Drive;
-//import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,7 +33,7 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   private Drive drive;
-  //private Shooter shooter;
+  private Shooter shooter;
   private DriverControls driverControls;
   private OperatorControls operatorControls;
   private Command m_autonomousCommand;
@@ -150,16 +150,16 @@ public class Robot extends TimedRobot {
 
   private void configureBindings(){
     operatorControls = new OperatorControls(0);
-    //operatorControls.start().onTrue(Commands.runOnce(() -> shooter.arm.resetTargetAngleToEncoderAngle()));
-    //operatorControls.setArmShootPos().onTrue(shooter.arm.setArmShootPosition());
-    //operatorControls.setArmIntakePos().onTrue(shooter.arm.setArmIntakePosition());
-    //operatorControls.x().onTrue(shooter.arm.setArmAmpPosition());
-    //shooter.arm.runManual(operatorControls.armManual());
-    //operatorControls.runFlyWheelOut().whileTrue(shooter.flywheel.setShootSpeedCommand()).onFalse(shooter.flywheel.stopFlywheelCommand());
-    //operatorControls.autoIntakeFromSource().whileTrue(shooter.rollers.autoIntake()).onFalse(shooter.rollers.runRollersOutCommandSlow().withTimeout(0.2).finallyDo(() -> shooter.rollers.stopRollers()));
-    //operatorControls.runRollersOut().whileTrue(shooter.rollers.runRollersOutCommand()).onFalse(shooter.rollers.stopRollersCommand());
-    //operatorControls.shoot().onTrue(shooter.shootCommand());
-    //operatorControls.rightTrigger().onTrue(shooter.shootCommand());
+    operatorControls.start().onTrue(Commands.runOnce(() -> shooter.arm.resetTargetAngleToEncoderAngle()));
+    operatorControls.setArmShootPos().onTrue(shooter.arm.setArmShootPosition());
+    operatorControls.setArmIntakePos().onTrue(shooter.arm.setArmIntakePosition());
+    operatorControls.x().onTrue(shooter.arm.setArmAmpPosition());
+    shooter.arm.runManual(operatorControls.armManual());
+    operatorControls.runFlyWheelOut().whileTrue(shooter.flywheel.setShootSpeedCommand()).onFalse(shooter.flywheel.stopFlywheelCommand());
+    operatorControls.autoIntakeFromSource().whileTrue(shooter.rollers.autoIntake()).onFalse(shooter.rollers.runRollersOutCommandSlow().withTimeout(0.2).finallyDo(() -> shooter.rollers.stopRollers()));
+    operatorControls.runRollersOut().whileTrue(shooter.rollers.runRollersOutCommand()).onFalse(shooter.rollers.stopRollersCommand());
+    operatorControls.shoot().onTrue(shooter.shootCommand());
+    operatorControls.rightTrigger().onTrue(shooter.shootCommand());
   }
 
   /** This function is called once when the robot is first started up. */
@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
     drive = new Drive(TunerConstants.DriveTrain);
     // elevator = new Elevator();
     // intake = new Intake();
-    //shooter = new Shooter();
+    shooter = new Shooter();
   }
 
 }

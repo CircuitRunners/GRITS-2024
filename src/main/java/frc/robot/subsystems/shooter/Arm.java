@@ -1,8 +1,14 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.ControlModeValue;
+//import com.ctre.phoenix6.signals.ControlModeValue;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -16,7 +22,8 @@ import frc.robot.Constants.ShooterConstants.ArmConstants;
 public class Arm extends SubsystemBase
 {
         private final TalonFX arm;
-        
+        private Rotation2d targetAngle;
+        private DutyCycleEncoder throughBore = new DutyCycleEncoder(ArmConstants.throuhBoreEncoderPort);       
         public Arm ()
         {
             arm = new TalonFX(0);
@@ -75,4 +82,50 @@ public class Arm extends SubsystemBase
     {
         SmartDashboard.putNumber("clawEncoderPos", arm.getPosition().getValueAsDouble());
     }
+
+    public Command setArmShootPositionAndWait(){
+        return run(() -> setTargetAngle(ArmConstants.shootRotation)).until(() -> isArmAtTarget(Units.degreesToRadians(0.5)));
+    }
+
+    public void setTargetAngle(Rotation2d targetAngle){ 
+        this.targetAngle = Rotation2d.fromRadians(MathUtil.clamp(targetAngle.getRadians(), ArmConstants.minRadians, ArmConstants.maxRadians));
+    }
+
+    public boolean isArmAtTarget(double threshold){
+        return MathUtil.isNear(targetAngle.getDegrees(), getArmRotation().getDegrees(),threshold);
+    }
+
+    public Rotation2d getArmRotation(){
+        return Rotation2d.fromRadians(throughBore.getAbsolutePosition() * 2 * Math.PI).minus(Rotation2d.fromDegrees(350));
+    }
+
+
+    public void resetTargetAngleToEncoderAngle() {
+        setTargetAngle(getArmRotation());
+    }
+
+    public double getRawEncoderValue(){
+        return throughBore.getAbsolutePosition();
+    }
+
+    public void armVoltage(Measure<Voltage> voltageMeasure){
+        arm.setVoltage(voltageMeasure.magnitude());
+    }
+
+    public Command setArmAmpPosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.ampRotation));
+      }
+    
+    public Command setArmShootPosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.shootRotation));
+    }
+
+    public Command setArmIntakePosition(){
+        return runOnce(() -> setTargetAngle(ArmConstants.intakeRotation));
+    }
+
+    public void runManual(double value){
+        setTargetAngle(targetAngle.plus(Rotation2d.fromDegrees(value * ArmConstants.armSpeed)));
+    }
+    
 }
