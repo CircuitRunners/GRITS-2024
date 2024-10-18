@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Shooter;
 
 
 public class PathPlannerUtil {
