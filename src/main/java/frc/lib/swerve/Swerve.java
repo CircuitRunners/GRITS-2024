@@ -60,7 +60,10 @@ public class Swerve extends SwerveDrivetrain {
     }
 
     public Command zeroGyroCommand(){
-        return Commands.runOnce(() -> m_pigeon2.reset());
+        return Commands.runOnce(this::zeroGyro);
+    }
+    public void zeroGyro() {
+        m_pigeon2.reset();
     }
 
     public double getPitch(){
@@ -80,7 +83,8 @@ public class Swerve extends SwerveDrivetrain {
     }
 
     public void setPigeonOffset(){
-        m_pigeon2.getConfigurator().apply((new MountPoseConfigs()).withMountPosePitch(47.109375).withMountPoseRoll(-88.242188).withMountPoseYaw(-83.410950));
+        // m_pigeon2.getConfigurator().apply((new MountPoseConfigs()).withMountPosePitch(-81.694).withMountPoseRoll(70.488).withMountPoseYaw(-45.170));
+        m_pigeon2.getConfigurator().apply((new MountPoseConfigs()).withMountPosePitch(-81.694).withMountPoseRoll(69.267).withMountPoseYaw(14.3));
     }
 
 }

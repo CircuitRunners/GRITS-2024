@@ -142,7 +142,7 @@ public final class Constants{
       public static final int angleMotorID = 1;
       public static final int canCoderID = 0;
 
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kFrontLeftEncoderOffset);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kFrontLeftEncoderOffset); // -0.482177734375
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       public static final Translation2d position = new Translation2d(driveBaseRadiusMeter/2.0,wheelBase/2.0);//front left +x,+y
     }
@@ -153,7 +153,7 @@ public final class Constants{
       public static final int driveMotorID = 2;
       public static final int angleMotorID = 3;
       public static final int canCoderID = 1;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kFrontRightEncoderOffset);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kFrontRightEncoderOffset); // 0.46435546875
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,canCoderID, angleOffset);
       public static final Translation2d position = new Translation2d(driveBaseRadiusMeter / 2.0, -wheelBase / 2.0); //front right is +x, -y
     }
@@ -165,7 +165,7 @@ public final class Constants{
       public static final int angleMotorID = 5;
       public static final int canCoderID = 2;
 
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackLeftEncoderOffset);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackLeftEncoderOffset); // -0.002685546875
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID,angleOffset);
       public static final Translation2d position = new Translation2d(driveBaseRadiusMeter/-2.0, wheelBase/2.0);//Back left -x,+y
     }
@@ -177,7 +177,7 @@ public final class Constants{
       public static final int angleMotorID = 7;
       public static final int canCoderID = 3;
 
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackRightEncoderOffset);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(TunerConstants.kBackRightEncoderOffset); // 0.435546875
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
       public static final Translation2d position = new Translation2d(-driveBaseRadiusMeter/2.0,-wheelBase/2.0);// -x,-y
     }

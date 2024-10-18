@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +35,7 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.io.DriverControls;
 
 public class Drive extends SubsystemBase {
-  public static double limit = 1;
+  public static double limit = 0.8;
   private Swerve swerve;
   private FieldUtil fieldUtil = FieldUtil.getField();
   private boolean sysIdTranslator = true;
@@ -63,6 +64,7 @@ public class Drive extends SubsystemBase {
       this));
 
   private SlewRateLimiter forwardLimiter, strafeLimiter;
+  private boolean usingLimiter;
   /** Creates a new Drive */
   public Drive(Swerve swerve) {
     SignalLogger.setPath("logs/sysid/drive");
@@ -70,12 +72,21 @@ public class Drive extends SubsystemBase {
 
     forwardLimiter = new SlewRateLimiter(5, -10, 0);
     strafeLimiter = new SlewRateLimiter(5, -10, 0);
-    swerve.setPigeonOffset();
+    usingLimiter = false;
+    // swerve.setPigeonOffset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Pigeon Yaw", swerve.getPigeon2().getYaw().getValueAsDouble());
+    SmartDashboard.putNumber("Pigeon Pitch", swerve.getPigeon2().getPitch().getValueAsDouble());
+    SmartDashboard.putNumber("Pigeon Roll", swerve.getPigeon2().getRoll().getValueAsDouble());
+
+    SmartDashboard.putNumber("Mod0 Cancoder", swerve.getModule(0).getCANcoder().getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Mod1 Cancoder", swerve.getModule(1).getCANcoder().getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Mod2 Cancoder", swerve.getModule(2).getCANcoder().getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Mod3 Cancoder", swerve.getModule(3).getCANcoder().getPosition().getValueAsDouble());
   }
 
   @Override
@@ -94,8 +105,8 @@ public class Drive extends SubsystemBase {
   public void driveFieldCentric(ChassisSpeeds speeds){
     swerve.setControl(
       SwerveConfig.drive
-      .withVelocityX(forwardLimiter.calculate(speeds.vxMetersPerSecond))
-      .withVelocityY(strafeLimiter.calculate(speeds.vyMetersPerSecond))
+      .withVelocityX(usingLimiter ? forwardLimiter.calculate(speeds.vxMetersPerSecond) : speeds.vxMetersPerSecond)
+      .withVelocityY(usingLimiter ? strafeLimiter.calculate(speeds.vyMetersPerSecond) : speeds.vyMetersPerSecond)
       .withRotationalRate(speeds.omegaRadiansPerSecond)
     );
   }
@@ -103,8 +114,8 @@ public class Drive extends SubsystemBase {
   public void driveRobotCentric(ChassisSpeeds speeds){
     swerve.setControl(
       SwerveConfig.robotCentric
-      .withVelocityX(forwardLimiter.calculate(speeds.vxMetersPerSecond))
-      .withVelocityY(strafeLimiter.calculate(speeds.vyMetersPerSecond))
+      .withVelocityX(usingLimiter ? forwardLimiter.calculate(speeds.vxMetersPerSecond) : speeds.vxMetersPerSecond)
+      .withVelocityY(usingLimiter ? strafeLimiter.calculate(speeds.vyMetersPerSecond) : speeds.vyMetersPerSecond)
       .withRotationalRate(speeds.omegaRadiansPerSecond)
     );
   }
@@ -163,6 +174,10 @@ public class Drive extends SubsystemBase {
 
   public Command resetGyroCommand(){
     return swerve.zeroGyroCommand();
+  }
+
+  public void resetGyro() {
+    swerve.zeroGyro();
   }
 
   public Command sysIdDynamic(Direction direction){
